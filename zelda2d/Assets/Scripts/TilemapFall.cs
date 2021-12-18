@@ -18,7 +18,7 @@ public class TilemapFall : MonoBehaviour
         // else
         //     Obj.GetComponent<SpriteRenderer>().sortingLayerName="DefaultBackGround";
         // Debug.Log(-1);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.3f);
         // Debug.Log(1);
         Obj.SetActive(false);
         yield break;

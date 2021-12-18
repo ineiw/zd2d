@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public Animator anim ;
     const float freezeTime = 1f;
     public float imok = freezeTime+1;
     public float hitPower = 50f;
@@ -21,7 +22,7 @@ public class Enemy : MonoBehaviour
         playerScript = player.GetComponent<Player>();
     }
     void Update() {
-        
+        anim.SetBool("run",imok>freezeTime);
     }
     // Update is called once per frame
     void FixedUpdate()

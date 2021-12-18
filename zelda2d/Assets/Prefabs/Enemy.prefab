@@ -94,7 +94,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1596702923
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 1617004695979393580, guid: 95b18d7bc1b6d8146a786009394c4874, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -138,9 +138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6592eaed9b2f1ec40b95d9019b02ca5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 9051820391564720377}
   imok: 2
   hitPower: 50
-  player: {fileID: 3979590196547162628, guid: add0865aa69b9898494cb804c688f7c6, type: 3}
   enemyToPlayer: {x: 0, y: 0}
 --- !u!61 &9051820391564720901
 BoxCollider2D:
