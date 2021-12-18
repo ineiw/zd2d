@@ -9,13 +9,15 @@ public class Enemy : MonoBehaviour
     public float hitPower = 50f;
     float moveSpeed = 0f;
     Rigidbody2D rb;
-    public Transform player;
+    Transform player;
     Player playerScript;
     public Vector2 enemyToPlayer;
+    float maxPowerUp = 1000f;
     // Start is called before the first frame update
     void Start()
     {
         rb = transform.GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<Transform>();
         playerScript = player.GetComponent<Player>();
     }
     void Update() {
@@ -30,7 +32,7 @@ public class Enemy : MonoBehaviour
             imok+=Time.deltaTime;
             maChal();
         }
-            
+        // Debug.Log(player.transform.position);
     }
     void maChal(){
         rb.velocity = new Vector2(rb.velocity.x*0.9f,rb.velocity.y*0.9f);
@@ -47,13 +49,13 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.CompareTag("SWORD")){
-            rb.AddForce(enemyToPlayer.normalized  * playerScript.powerUp*0.1f);
+            rb.AddForce(enemyToPlayer.normalized  * Mathf.Clamp(playerScript.powerUp,0,maxPowerUp)*0.1f);
             imok = 0;
         }
     }
     private void OnTriggerStay2D(Collider2D other) {
         if(other.gameObject.CompareTag("SWORD")){
-            rb.AddForce(enemyToPlayer.normalized  * playerScript.powerUp*0.1f);
+            rb.AddForce(enemyToPlayer.normalized  * Mathf.Clamp(playerScript.powerUp,0,maxPowerUp)*0.1f);
             imok = 0;
         }
     }

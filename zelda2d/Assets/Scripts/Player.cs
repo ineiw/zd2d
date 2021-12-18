@@ -10,12 +10,14 @@ public class Player : MonoBehaviour
     Vector2 movePos;
     Vector2 mousePos;
     Vector2 swordToMouse;
-    float moveSpeed = 1f;
+    float moveSpeed = 0.5f;
     public Enemy enemy;
     Rigidbody2D swordRb;
     public float powerUp = 0f;
+    float dashPower = 100f;
     float a;
     float b;
+    float freezeTime = 0;
     // Start is called before the first frame update
     void Start()
     {   
@@ -35,12 +37,26 @@ public class Player : MonoBehaviour
             mousePos.x-Screen.width/2,
             mousePos.y-Screen.height/2
         );
+        float _jump = Input.GetAxisRaw("Jump");
+        if(_jump>0 && freezeTime>0.5f){
+            // for(int i=0;i<=1;i++)
+            rb.AddForce(movePos * dashPower);
+            // rb.velocity =(movePos * dashPower);
+            freezeTime=0f;
+        }
+            
         // Debug.Log(mousePos);
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movePos.normalized * moveSpeed *Time.deltaTime);
+        if(freezeTime>0.5f)
+            rb.MovePosition(rb.position + movePos.normalized * moveSpeed *Time.deltaTime);
+        else{
+            maChal();
+            freezeTime+=Time.deltaTime;
+        }
+            
         float swordToMouseDis = Vector2.Distance(transform.position,mousePos);
         sword.transform.position = new Vector2(
             transform.position.x + mousePos.x*(0.1f/swordToMouseDis),
@@ -58,6 +74,8 @@ public class Player : MonoBehaviour
         b = swordRb.rotation;
     }
 
-    
+    void maChal(){
+        rb.velocity = new Vector2(rb.velocity.x*0.9f,rb.velocity.y*0.9f);
+    }
     
 }

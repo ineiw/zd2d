@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SWORD
   - ENEMY
+  - PLAYER
   layers:
   - Default
   - TransparentFX
@@ -43,8 +44,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: DefaultBackGround
+    uniqueID: 3169152595
+    locked: 0
   - name: BackGround
     uniqueID: 959263429
+    locked: 0
+  - name: BackGroundFall
+    uniqueID: 3446649595
     locked: 0
   - name: Player
     uniqueID: 1596702923
