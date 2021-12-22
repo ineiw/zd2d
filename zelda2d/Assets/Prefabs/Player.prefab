@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1596702923
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 2587706737540376869, guid: 82e605cde0aa94e48838d6bfe305092a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 3979590196547162682}
-  sword: {fileID: 0}
-  enemy: {fileID: 0}
+  sword: {fileID: 4883522006805099746, guid: 8b195365afded7847be76d3bcfbbc59b, type: 3}
+  enemy: {fileID: 9051820391564720382, guid: f19735e76b54c373db3ed26915fa3626, type: 3}
   powerUp: 0
 --- !u!50 &3979590196547162630
 Rigidbody2D:

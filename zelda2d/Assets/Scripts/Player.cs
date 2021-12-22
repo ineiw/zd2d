@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     void Start()
     {   
         rb = gameObject.GetComponent<Rigidbody2D>();
-        swordRb =  sword.gameObject.GetComponent<Rigidbody2D>();
+        
         // enemy = GameObject.FindObjectOfType<Enemy>();
     }
 
@@ -70,7 +70,8 @@ public class Player : MonoBehaviour
         // Debug.Log(swordToMouse);
         sword.transform.eulerAngles =  new Vector3(0,0,Mathf.Atan2(swordToMouse.y,swordToMouse.x) * Mathf.Rad2Deg+90f);
         a = swordRb.rotation;
-        powerUp = Mathf.Abs((b-a)/Time.deltaTime);
+        powerUp = Mathf.Abs((b-a)/Time.deltaTime)*4;
+        Debug.Log(a);
         b = swordRb.rotation;
     }
 
@@ -78,4 +79,12 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x*0.9f,rb.velocity.y*0.9f);
     }
     
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.gameObject.CompareTag("SWORD")){
+            sword = other.gameObject;
+            swordRb =  sword.gameObject.GetComponent<Rigidbody2D>();
+            // sword.transform.position = Vector3.zero;
+            // sword.transform.eulerAngles = Vector3.zero;
+        }
+    }
 }

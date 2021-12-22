@@ -5,21 +5,24 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Animator anim ;
-    const float freezeTime = 1f;
+    const float freezeTime = 0.5f;
     public float imok = freezeTime+1;
     public float hitPower = 50f;
-    float moveSpeed = 0f;
+    public float moveSpeed = 0f;
     Rigidbody2D rb;
     Transform player;
     Player playerScript;
     public Vector2 enemyToPlayer;
     float maxPowerUp = 1000f;
+    BoxCollider2D boxCol = null;
+    int triggerFlag = 0;
     // Start is called before the first frame update
     void Start()
     {
         rb = transform.GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<Transform>();
         playerScript = player.GetComponent<Player>();
+        boxCol = transform.GetComponent<BoxCollider2D>(); 
     }
     void Update() {
         anim.SetBool("run",imok>freezeTime);
@@ -29,16 +32,21 @@ public class Enemy : MonoBehaviour
     {
         if(imok>freezeTime)
             move();
-        if(imok<=freezeTime){
+        else if(imok<=freezeTime){
             imok+=Time.deltaTime;
             maChal();
         }
+        if(triggerFlag>0 && triggerFlag<2){
+            boxCol.isTrigger = false;
+        }
+            
         // Debug.Log(player.transform.position);
     }
     void maChal(){
         rb.velocity = new Vector2(rb.velocity.x*0.9f,rb.velocity.y*0.9f);
     }
     void move(){
+        triggerFlag +=1;
         moveSpeed+=0.01f;
         moveSpeed = Mathf.Clamp(moveSpeed,0,0.3f);
         enemyToPlayer = new Vector2(
@@ -48,16 +56,19 @@ public class Enemy : MonoBehaviour
         // Debug.Log(enemyToPlayer.normalized);
         rb.MovePosition(rb.position-enemyToPlayer.normalized * moveSpeed *Time.deltaTime);
     }
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.CompareTag("SWORD")){
-            rb.AddForce(enemyToPlayer.normalized  * Mathf.Clamp(playerScript.powerUp,0,maxPowerUp)*0.1f);
-            imok = 0;
-        }
-    }
+    // private void OnTriggerEnter2D(Collider2D other) {
+    //     if(other.gameObject.CompareTag("SWORD")&& imok>0.1f){
+    //         rb.AddForce(enemyToPlayer.normalized  * Mathf.Clamp(playerScript.powerUp,0,maxPowerUp)*0.1f);
+    //         imok = 0;
+    //     }
+    // }
     private void OnTriggerStay2D(Collider2D other) {
-        if(other.gameObject.CompareTag("SWORD")){
+        if(other.gameObject.CompareTag("SWORD") && imok>0.1f){
             rb.AddForce(enemyToPlayer.normalized  * Mathf.Clamp(playerScript.powerUp,0,maxPowerUp)*0.1f);
             imok = 0;
+            moveSpeed = 0f;
+            boxCol.isTrigger = true;
+            triggerFlag=0;
         }
     }
 }
