@@ -7396,7 +7396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy2: {fileID: 9051820391564720383, guid: f19735e76b54c373db3ed26915fa3626, type: 3}
-  limit: 100
+  limit: 10
   player: {fileID: 1751824416}
   sword: {fileID: 4883522006805099746, guid: 8b195365afded7847be76d3bcfbbc59b, type: 3}
 --- !u!4 &1328796400

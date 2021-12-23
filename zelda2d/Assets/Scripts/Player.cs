@@ -45,6 +45,12 @@ public class Player : MonoBehaviour
         );
         if(ok)
             inputToMove();
+        else{
+            movePos.x = 0;
+            movePos.y = 0; 
+
+            anim.SetBool("run",(movePos.x!=0 || movePos.y!=0));
+        }
             
         // Debug.Log(mousePos);
     }
