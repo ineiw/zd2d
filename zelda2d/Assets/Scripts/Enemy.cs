@@ -16,6 +16,9 @@ public class Enemy : MonoBehaviour
     float maxPowerUp = 1000f;
     BoxCollider2D boxCol = null;
     int triggerFlag = 0;
+    public HealthBar healthBar;
+    int maxHealth=100;
+    public int curHealth=100;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,9 +26,17 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<Transform>();
         playerScript = player.GetComponent<Player>();
         boxCol = transform.GetComponent<BoxCollider2D>(); 
+        healthBar.setMaxHealth(maxHealth);
     }
     void Update() {
         anim.SetBool("run",imok>freezeTime);
+        if(curHealth<=0){
+            StartCoroutine("Fade",gameObject);
+        }
+    }
+    public void setReStart(){
+        curHealth=maxHealth;
+        healthBar.setMaxHealth(maxHealth);
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -38,13 +49,23 @@ public class Enemy : MonoBehaviour
         }
         if(triggerFlag>0 && triggerFlag<2){
             boxCol.isTrigger = false;
+            hittedOk();
         }
             
         // Debug.Log(player.transform.position);
     }
+    void TakeHit(int damage){
+        curHealth-=damage;
+        healthBar.setHealth(curHealth);
+    }
+    void hittedOk(){
+        transform.GetComponent<SpriteRenderer>().color=Color.white;
+    }
+
     void maChal(){
         rb.velocity = new Vector2(rb.velocity.x*0.9f,rb.velocity.y*0.9f);
     }
+
     void move(){
         triggerFlag +=1;
         moveSpeed+=0.01f;
@@ -56,6 +77,21 @@ public class Enemy : MonoBehaviour
         // Debug.Log(enemyToPlayer.normalized);
         rb.MovePosition(rb.position-enemyToPlayer.normalized * moveSpeed *Time.deltaTime);
     }
+
+    IEnumerator Fade(GameObject Obj){
+        // if(gameObject.name=="fall")
+            // Obj.GetComponent<SpriteRenderer>().sortingLayerName="DefaultBackGround";
+        // else
+        //     Obj.GetComponent<SpriteRenderer>().sortingLayerName="DefaultBackGround";
+        // Debug.Log(-1);
+        yield return new WaitForSeconds(0.5f);
+        // for(int i=0;i<10000;i++){
+        //     int j = 1;
+        // }
+        // Debug.Log(1);
+        Obj.SetActive(false);
+        yield break;
+    }
     // private void OnTriggerEnter2D(Collider2D other) {
     //     if(other.gameObject.CompareTag("SWORD")&& imok>0.1f){
     //         rb.AddForce(enemyToPlayer.normalized  * Mathf.Clamp(playerScript.powerUp,0,maxPowerUp)*0.1f);
@@ -63,12 +99,19 @@ public class Enemy : MonoBehaviour
     //     }
     // }
     private void OnTriggerStay2D(Collider2D other) {
-        if(other.gameObject.CompareTag("SWORD") && imok>0.1f){
+        if(other.gameObject.CompareTag("SWORD") && imok>freezeTime){
             rb.AddForce(enemyToPlayer.normalized  * Mathf.Clamp(playerScript.powerUp,0,maxPowerUp)*0.1f);
             imok = 0;
             moveSpeed = 0f;
             boxCol.isTrigger = true;
             triggerFlag=0;
+            transform.GetComponent<SpriteRenderer>().color=Color.green;
+            TakeHit(20);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.CompareTag("PLAYER")&& imok>freezeTime){
+            other.gameObject.GetComponent<Rigidbody2D>().AddForce(-enemyToPlayer.normalized *400f);
         }
     }
 }

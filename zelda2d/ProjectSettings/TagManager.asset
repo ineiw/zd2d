@@ -7,6 +7,7 @@ TagManager:
   - SWORD
   - ENEMY
   - PLAYER
+  - UNSWORD
   layers:
   - Default
   - TransparentFX
@@ -58,4 +59,7 @@ TagManager:
     locked: 0
   - name: Tools
     uniqueID: 694541169
+    locked: 0
+  - name: UI
+    uniqueID: 3015386397
     locked: 0

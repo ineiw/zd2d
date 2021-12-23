@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 326669143542517230}
   m_Layer: 0
   m_Name: sword_basic
-  m_TagString: SWORD
+  m_TagString: UNSWORD
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
