@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
         sword.transform.eulerAngles =  new Vector3(0,0,Mathf.Atan2(swordToMouse.y,swordToMouse.x) * Mathf.Rad2Deg+90f);
         a = swordRb.rotation;
         powerUp = Mathf.Abs((b-a)/Time.deltaTime)*10;
-        Debug.Log(a);
+        // Debug.Log(a);
         b = swordRb.rotation;
     }
     public void setReStart(){

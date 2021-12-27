@@ -5,17 +5,17 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Animator anim ;
-    const float freezeTime = 0.5f;
+    protected const float freezeTime = 0.5f;
     public float imok = freezeTime+1;
     public float hitPower = 50f;
     public float moveSpeed = 0f;
-    Rigidbody2D rb;
-    Transform player;
+    protected Rigidbody2D rb;
+    protected Transform player;
     Player playerScript;
     public Vector2 enemyToPlayer;
     float maxPowerUp = 1000f;
-    BoxCollider2D boxCol = null;
-    int triggerFlag = 0;
+    protected BoxCollider2D boxCol = null;
+    protected int triggerFlag = 0;
     public HealthBar healthBar;
     int maxHealth=100;
     public int curHealth=100;
@@ -58,15 +58,15 @@ public class Enemy : MonoBehaviour
         curHealth-=damage;
         healthBar.setHealth(curHealth);
     }
-    void hittedOk(){
+    protected void hittedOk(){
         transform.GetComponent<SpriteRenderer>().color=Color.white;
     }
 
-    void maChal(){
+    protected void maChal(){
         rb.velocity = new Vector2(rb.velocity.x*0.9f,rb.velocity.y*0.9f);
     }
 
-    void move(){
+    protected void move(){
         triggerFlag +=1;
         moveSpeed+=0.01f;
         moveSpeed = Mathf.Clamp(moveSpeed,0,0.3f);
@@ -76,6 +76,17 @@ public class Enemy : MonoBehaviour
         );
         // Debug.Log(enemyToPlayer.normalized);
         rb.MovePosition(rb.position-enemyToPlayer.normalized * moveSpeed *Time.deltaTime);
+    }
+    protected void moveBack(){
+        triggerFlag +=1;
+        moveSpeed+=0.01f;
+        moveSpeed = Mathf.Clamp(moveSpeed,0,0.3f);
+        enemyToPlayer = new Vector2(
+            rb.transform.position.x-player.position.x,
+            rb.transform.position.y-player.position.y
+        );
+        // Debug.Log(enemyToPlayer.normalized);
+        rb.MovePosition(rb.position+enemyToPlayer.normalized * moveSpeed *Time.deltaTime);
     }
 
     IEnumerator Fade(GameObject Obj){
