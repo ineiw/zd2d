@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     float imok = 0f;
     bool ok = true;
     public SpriteRenderer playerRender;
+    public Transform swords;
     // Start is called before the first frame update
     void Start()
     {   
@@ -121,11 +122,15 @@ public class Player : MonoBehaviour
     void hittedOk(){
         transform.GetComponent<SpriteRenderer>().color=Color.white;
     }
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.CompareTag("UNSWORD")){
-            if(sword!=null)
+            if(sword!=null){
                 sword.tag="UNSWORD";
+                sword.transform.parent = swords;
+            }
+                
             sword = other.gameObject;
+            sword.transform.parent = transform;
             swordRb =  sword.gameObject.GetComponent<Rigidbody2D>();
             sword.tag="SWORD";
             // sword.transform.position = Vector3.zero;
@@ -140,6 +145,7 @@ public class Player : MonoBehaviour
             StartCoroutine("BeWhite");
             imok=0;
         }
+        
     }
     IEnumerator BeWhite(){
         // if(gameObject.name=="fall")

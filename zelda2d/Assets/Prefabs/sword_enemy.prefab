@@ -173,6 +173,7 @@ MonoBehaviour:
   healthBar: {fileID: 7589987750680826450}
   curHealth: 100
   sword: {fileID: 0}
+  swords: {fileID: 7815624232665921396, guid: e85555539a85c8210b3cc85986dba840, type: 3}
 --- !u!1001 &9003692110925555498
 PrefabInstance:
   m_ObjectHideFlags: 0

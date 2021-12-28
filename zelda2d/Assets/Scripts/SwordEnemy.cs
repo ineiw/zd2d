@@ -7,6 +7,7 @@ public class SwordEnemy : Enemy
     public GameObject sword;
     float deadLineDis = 0.3f;
     Vector2 swordMoveDir;
+    public Transform swords;
     void Update() {
         
     }
@@ -18,7 +19,7 @@ public class SwordEnemy : Enemy
             imok+=Time.deltaTime;
             maChal();
         }
-        else if(imok>freezeTime && deadLineDis>Vector3.Distance(rb.transform.position,player.transform.position))
+        else if(imok>freezeTime && deadLineDis>=Vector3.Distance(rb.transform.position,player.transform.position))
             moveBack();
         // else
         //     rb.velocity = Vector2.zero;
@@ -31,16 +32,27 @@ public class SwordEnemy : Enemy
             transform.position.x - enemyToPlayer.normalized.x*0.15f,
             transform.position.y - enemyToPlayer.normalized.y*0.15f
         );
-
-        sword.transform.eulerAngles =  new Vector3(0,0,Mathf.Atan2(enemyToPlayer.y,enemyToPlayer.x) * Mathf.Rad2Deg+90f);
+        if(imok>freezeTime){
+            sword.transform.eulerAngles =  new Vector3(0,0,Mathf.Atan2(enemyToPlayer.y,enemyToPlayer.x) * Mathf.Rad2Deg+90f);
+        }
+            
         // Debug.Log(Vector3.Distance(rb.transform.position,player.transform.position));
     }
-
-    private void OnTriggerEnter2D(Collider2D other) {
+    public void bangBing(float a){
+        
+        enemyToPlayer = new Vector2(
+            rb.transform.position.x-player.position.x,
+            rb.transform.position.y-player.position.y
+        );
+    }
+    private void OnCollisionEnter2D(Collision2D other) {
         if(other.gameObject.CompareTag("UNSWORD")){
-            if(sword!=null)
+            if(sword!=null){
                 sword.tag="UNSWORD";
+                sword.transform.parent = swords;
+            }
             sword = other.gameObject;
+            sword.transform.parent = transform;
             sword.tag="SWORD";
             // sword.transform.position = Vector3.zero;
             // sword.transform.eulerAngles = Vector3.zero;

@@ -109,8 +109,8 @@ public class Enemy : MonoBehaviour
     //         imok = 0;
     //     }
     // }
-    private void OnTriggerStay2D(Collider2D other) {
-        if(other.gameObject.CompareTag("SWORD") && imok>freezeTime){
+    private void OnCollisionStay2D(Collision2D other) {
+        if(other.gameObject.CompareTag("SWORD") && imok>freezeTime && !other.transform.parent.CompareTag("ENEMY")){
             rb.AddForce(enemyToPlayer.normalized  * Mathf.Clamp(playerScript.powerUp,0,maxPowerUp)*0.1f);
             imok = 0;
             moveSpeed = 0f;

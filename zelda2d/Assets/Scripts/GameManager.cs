@@ -16,17 +16,18 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(sword,new Vector3(Random.Range(-1f,1f),Random.Range(-1f,1f),0),Quaternion.Euler(new Vector3(0,0,Random.Range(-1f,1f))));
+        // Instantiate(sword,new Vector3(Random.Range(-1f,1f),Random.Range(-1f,1f),0),Quaternion.Euler(new Vector3(0,0,Random.Range(-1f,1f))));
         limit = Mathf.Clamp(limit,0,firstLimit);
         for(int i=0;i<limit;i++)
             enemy.Add(Instantiate(enemy2));
         swordLimit = Mathf.Clamp(swordLimit,0,firstLimit);
         for(int i=0;i<swordLimit;i++){
-            swordEnemy.Add(Instantiate(swordEnemy2));
+            swordEnemy.Add(Instantiate(swordEnemy2,Vector3.right,Quaternion.identity));
             swordEnemy[i].GetComponent<SwordEnemy>().sword = Instantiate(sword);
             swordEnemy[i].GetComponent<SwordEnemy>().sword.tag="SWORD";
+            swordEnemy[i].GetComponent<SwordEnemy>().sword.transform.parent = swordEnemy[i].transform;
         }
-           
+        player.GetComponent<Player>().sword.transform.parent = player.transform;
         // Debug.Log(enemy2);
     }
 
